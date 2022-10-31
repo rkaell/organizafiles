@@ -5,6 +5,7 @@
 Criado por Rhuann Kael Souza Nascimento - 11/10/2017 - 15:36
 Atualização 18/10/2017 - 10:38
 Atualização 06/11/2017 - 10:07
+Atualização 31/10/2022 - 18:06
 """
 import separador as sp
 from tkinter import *
@@ -15,32 +16,41 @@ import os
 #GUI - Organizador de Fotos
 raiz = Tk()
 raiz.iconbitmap("organizador.ico")
+raiz.geometry("300x300+610+153")
+raiz.iconbitmap(default="organizador.ico")
+raiz.resizable(width=1, height=1)
+
+# Variáveis Globais
 navegar = ""
-navegar2 = ""
-imagem = tkinter.PhotoImage(file="organizador.png")
-image2 = tkinter.PhotoImage(file="titulo.png")
+btn_upload = PhotoImage(file="btn_upload.png")
+btn_ok = PhotoImage(file="btn_ok.png")
+imagem = tkinter.PhotoImage(file="main.png")
+
+# GUI Widgets
 class Janela:
     def __init__(self, janela1):
         janela1.title("OrganizaFiles")
         self.navegar = ""
         self.container1 = Frame(janela1)
-        self.container1.grid()
+        self.container1.pack()
+
+
         self.imagemtitulo = Label(self.container1, image=imagem)
-        self.imagemtitulo.grid(row=0, column=0, rowspan=10, sticky=N+S)
-        '''self.titulo = Label(self.container1, text="  Local dos Arquivos:  ", font=("Arial Black", "20", "bold","underline"))'''
-        '''self.titulo.grid(row=0, column=1, columnspan=3, rowspan=1, sticky=N+S)'''
-        self.diret = Button(self.container1, text="Upload ⋙ ⋙", command=self.file_objeto, font=("times", "16", "bold"), fg="black", bg="light gray", borderwidth=6, padx=10, activebackground="gray")
-        self.diret.grid(row=1, column=1, columnspan=3, rowspan=1,)
+        self.imagemtitulo.pack()
+
         self.lugar = Label(self.container1, text=navegar)
-        self.lugar.grid(row=2, column=1, sticky=W, columnspan=2)
-        self.botao = Button(self.container1, text="Cancelar", command=self.cancelar, bg="red", fg="white", padx=2, pady=2)
-        self.botao["font"] = ("times", "16", "bold")
-        self.botao.grid(row=4, column=1, sticky=W+E)
-        self.botao2 = Button(self.container1, font=("times","16","bold"), command=self.ok, bg="light blue", padx=2, pady=2, activebackground="blue")
-        self.botao2["text"] = "OK"
-        self.botao2["fg"] = "blue"
-        self.botao2.grid(row=4, column=2, columnspan=2, sticky=W+E)
-        tkinter.messagebox.showinfo("Tutorial","Organize seus arquivos rapidamente:\n\n\tColoque todos os arquivos em um diretório\nLogo após rodar o programa os arquivos se organizaram por data num piscar de olhos")
+        self.lugar.place(width=252, height=90, x=24, y=150)
+
+        self.diret = Button(self.container1,bd=2, image=btn_upload, command=self.file_objeto)
+        self.diret.place(width=252, height=30, x=24, y=95)
+
+        self.botao2 = Button(self.container1, bd=1, image=btn_ok, command=self.ok)
+        self.botao2.place(width=252, height=30, x=24, y=245)
+
+        tkinter.messagebox.showinfo("Tutorial","Organize seus arquivos rapidamente:\n\n\tColoque todos os arquivos "
+                                               "em um diretório\nLogo após rodar o programa os arquivos se "
+                                               "organizaram por data num piscar de olhos")
+# Funções
 
     def ok(self):
         """Botão de OK Verificação"""
@@ -63,8 +73,7 @@ class Janela:
         """navegar e escolher pasta"""
         navegar = tkinter.filedialog.askdirectory(initialdir=".")
         os.chdir(navegar)
-        self.lugar["text"] = navegar + "\n o arquivo mais antigo é de: " + str(sp.arquivo_mais_antigo())
+        self.lugar["text"] = "\n o arquivo mais antigo é de: " + str(sp.arquivo_mais_antigo())
         self.file_objeto = navegar
-
 Janela(raiz)
 raiz.mainloop()
